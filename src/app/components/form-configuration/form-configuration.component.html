@@ -1,0 +1,182 @@
+<div class="legend-container">
+  <div class="leyend">
+    <div class="item-title">Measure of coincidence</div>
+    <div class="item">
+      <div class="title">Persons</div>
+      <div class="description">-</div>
+      <div class="color person"></div>
+      <div class="description">+</div>
+    </div>
+    <div class="item">
+      <div class="title">Attributes</div>
+      <div class="description">-</div>
+      <div class="color attribute"></div>
+      <div class="description">+</div>
+    </div>
+    <div class="item">
+      <div class="title">Preferences</div>
+      <div class="description">-</div>
+      <div class="color preference"></div>
+      <div class="description">+</div>
+    </div>
+  </div>
+</div>
+<div class="form-container">
+  <div class="title-form">Select at least 3 attributes. ({{ attributesForm.get('attributes').value.length }} selected)</div>
+  <form [formGroup]="attributesForm" (ngSubmit)="submitForm()">
+    <div class="attributes">
+      <mat-button-toggle-group formControlName="attributes" aria-label="Attributes" multiple>
+        <div class="pyramid-container">
+          <!-- First row -->
+          <div class="pyramid-row">
+            <ng-container *ngFor="let attribute of personQualities.slice(9)">
+              <mat-button-toggle [value]="attribute">{{ attribute }}</mat-button-toggle>
+            </ng-container>
+          </div>
+
+          <!-- Second row -->
+          <div class="pyramid-row">
+            <ng-container *ngFor="let attribute of personQualities.slice(7, 9)">
+              <mat-button-toggle [value]="attribute">{{ attribute }}</mat-button-toggle>
+            </ng-container>
+          </div>
+          <!-- Third row -->
+          <div class="pyramid-row">
+            <ng-container *ngFor="let attribute of personQualities.slice(4, 7)">
+              <mat-button-toggle [value]="attribute">{{ attribute }}</mat-button-toggle>
+            </ng-container>
+          </div>
+          <!-- Fourth row -->
+          <div class="pyramid-row">
+            <ng-container *ngFor="let attribute of personQualities.slice(0, 4)">
+              <mat-button-toggle [value]="attribute">{{ attribute }}</mat-button-toggle>
+            </ng-container>
+          </div>
+        </div>
+      </mat-button-toggle-group>
+    </div>
+  </form>
+
+  <div class="title-form">Enter the configuration below.</div>
+  <form [formGroup]="graphForm" (ngSubmit)="submitForm()">
+    <mat-form-field appearance="outline">
+      <mat-label>Number of Persons</mat-label>
+      <input matInput type="number" formControlName="nodeGroupAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Person Names</mat-label>
+      <mat-select formControlName="idPersonSelected">
+        <mat-option [value]="person.id" *ngFor="let person of persons; let i = index"> {{ person.name }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Persons Distance</mat-label>
+      <input matInput type="number" formControlName="personsDistanceProportion" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Attributes Distance</mat-label>
+      <input matInput type="number" formControlName="attributesDistanceProportion" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Opacity Aura</mat-label>
+      <input matInput type="number" formControlName="opacityAura" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Defined Attributes(%)</mat-label>
+      <input matInput type="number" formControlName="percentDefinedAttributes" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Strength</mat-label>
+      <input matInput type="number" formControlName="strengthGraph" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Max. Aura Radio</mat-label>
+      <input matInput type="number" formControlName="maxAuraRadio" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Size Attribute Nodes</mat-label>
+      <input matInput type="number" formControlName="valueAttributeNode" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Full Color Attribute</mat-label>
+      <mat-select formControlName="fullColorAttributeNodes">
+        <mat-option [value]="true"> True </mat-option>
+        <mat-option [value]="false"> False </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Show names</mat-label>
+      <mat-select formControlName="showNames">
+        <mat-option [value]="true"> True </mat-option>
+        <mat-option [value]="false"> False </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit">Enter data</button>
+  </form>
+  <div class="title-form">{{ selectedPerson.name + ' Preferences' }}</div>
+  <div class="mat-elevation-z7">
+    <table mat-table [dataSource]="selectedSource" matSort>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Attribute</th>
+        <td mat-cell *matCellDef="let attribute">{{ attribute.name | titlecase }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+        <td mat-cell *matCellDef="let attribute">{{ attribute.value }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sign">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sign</th>
+        <td mat-cell *matCellDef="let attribute">
+          @if (attribute.sign === 'lesser') {
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          } @else if (attribute.sign === 'greater') {
+            <mat-icon>keyboard_arrow_up</mat-icon>
+          } @else if (attribute.sign === 'exact') {
+            <mat-icon>unfold_less</mat-icon>
+          } @else {
+            <mat-icon>compare_arrows</mat-icon>
+          }
+          {{ attribute.sign | titlecase }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="preferenceColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: preferenceColumns"></tr>
+    </table>
+  </div>
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let person">{{ person.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td class="min-width-cell" mat-cell *matCellDef="let person">{{ person.name | titlecase }}</td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="attribute" *ngFor="let attribute of personQualities; let i = index">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ attribute | titlecase }}</th>
+      <td mat-cell *matCellDef="let person">{{ person.attributes[attribute] }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

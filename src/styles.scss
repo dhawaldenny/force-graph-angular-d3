@@ -1,0 +1,105 @@
+
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$coding-assessment-primary: mat.define-palette(mat.$indigo-palette);
+$coding-assessment-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$coding-assessment-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$coding-assessment-theme: mat.define-light-theme((
+  color: (
+    primary: $coding-assessment-primary,
+    accent: $coding-assessment-accent,
+    warn: $coding-assessment-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($coding-assessment-theme);
+// For more information: https://material.angular.io/guide/theming
+// @import '@angular/material/theming';
+// Plus imports for other components in your app.
+
+$custom-typography: mat.define-typography-config(
+  $font-family: 'Gilroy-Regular, serif',
+);
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// @include mat.core($custom-typography);
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ns-outlook-add-in-primary: mat.define-palette(mat.$indigo-palette);
+$ns-outlook-add-in-accent: mat.define-palette(mat.$pink-palette);
+
+// The warn palette is optional (defaults to red).
+$ns-outlook-add-in-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$ns-outlook-add-in-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $ns-outlook-add-in-primary,
+      accent: $ns-outlook-add-in-accent,
+      warn: $ns-outlook-add-in-warn,
+    ),
+    typography: $custom-typography,
+    density: -12,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($ns-outlook-add-in-theme); /* You can add global styles to this file, and also import other style files */ // imports theming files'
+
+@import 'assets/styles/dark.scss';
+@import 'assets/styles/typography.scss';
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--primary-background);
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+

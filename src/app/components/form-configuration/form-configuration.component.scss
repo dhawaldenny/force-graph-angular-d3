@@ -1,0 +1,167 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: linear-gradient(191.18deg, #27242c 61.33%, #0c0b0e 101.43%);
+  height: 100%;
+  width: 100%;
+  padding: 20px 50px 50px 50px;
+  @media screen and (max-width: 600px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 400px) {
+    padding: 0px;
+  }
+
+  .legend-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    .leyend {
+      background-color: white;
+      min-width: 350px;
+      max-width: 350px;
+      min-height: 100px;
+
+      color: black;
+
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+      padding: 20px 40px;
+      @media screen and (max-width: 500px) {
+        padding: 20px 20px;
+        min-width: 300px;
+        max-width: 300px;
+      }
+      .item {
+        display: flex;
+        justify-content: space-around;
+        gap: 5px;
+        .title {
+          width: 120px;
+          @media screen and (max-width: 500px) {
+            width: 90px;
+          }
+        }
+        .description {
+          width: 30px;
+          text-align: center;
+        }
+        .color {
+          border-radius: 20px;
+          height: 20px;
+          width: 120px;
+          @media screen and (max-width: 500px) {
+            width: 70px;
+          }
+        }
+        .person {
+          background: linear-gradient(90deg, rgb(255, 200, 0) 0%, rgb(255, 0, 0) 100%);
+        }
+
+        .attribute {
+          background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+        }
+
+        .preference {
+          background: linear-gradient(90deg, rgb(0, 0, 255) 0%, rgb(255, 0, 255) 100%);
+        }
+      }
+    }
+  }
+  .chart-container {
+    height: 86vh;
+
+    @media screen and (max-width: 1920px) {
+      height: 80vh;
+    }
+  }
+  .form-container {
+    max-width: 1000px;
+    width: 100%;
+    .title-form {
+      margin-bottom: 20px;
+      padding-left: 50px;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0 20px;
+      padding-bottom: 20px;
+
+      mat-form-field {
+        width: 200px;
+        min-width: 200px;
+        input {
+          padding: 0px;
+        }
+      }
+      .attributes {
+        width: 100%;
+        mat-button-toggle-group {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          mat-button-toggle {
+            width: 200px;
+            height: 38px;
+            border-left: 0.1px solid rgba(255, 255, 255, 0.099);
+            border-bottom: 0.1px solid rgba(255, 255, 255, 0.099);
+
+            ::ng-deep {
+              .mat-button-toggle-button {
+                height: 100% !important;
+              }
+            }
+          }
+        }
+      }
+
+      button {
+        width: 200px;
+        height: 36px;
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+  td,
+  th {
+    width: 25%;
+  }
+
+  .mat-elevation-z7 {
+    margin-bottom: 20px;
+  }
+
+  .mat-elevation-z8 {
+    @media screen and (max-width: 1440px) {
+      display: none;
+    }
+  }
+}
+.pyramid-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.pyramid-row {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-button-toggle {
+  margin: 5px;
+}
+
+.min-width-cell
+{
+  min-width: 150px;
+}

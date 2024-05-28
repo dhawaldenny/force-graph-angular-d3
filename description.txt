@@ -1,0 +1,75 @@
+DESCRIPTION:
+
+0. You have to make sure the Node version on your machine should be at least 18
+1. Begin by opening the project to assess available resources. In this case, there is a dummy code for the force-directed graph.
+2. Establish a components folder and module to organize the components necessary for the task. For this purpose, create a FormComponent and a ForceGraphComponent.
+3. Request fake data from ChatGPT 3.5 to populate the form. The form should include 15 fields, each offering three options.
+4. Establish a personsSubject to manage changes related to persons.
+5. Develop a reactive form with 15 fields and a submission function that adds a Person object to the personsSubject.
+6. Subscribe to personsSubject within the ForceGraph component to trigger re-rendering of the force graph whenever its value changes.
+7. Adjust the getChartData() function to generate new Nodes and Links based on the personsSubject value (an array of Persons).
+8. Research online to enhance the d3 force graph. Found useful resources:
+    -   Utilize drag functionality from https://observablehq.com/@xianwu/force-directed-graph-network-graph-with-arrowheads-and-lab. This enables node selection and movement via touch or mouse input. Adapt logic for "arrowheads" to create a visual indicator at the end of each link ("little lights").
+    -   Incorporate link highlighting feature from https://observablehq.com/@john-guerra/force-directed-graph-with-link-highlighting. Integrate "mouseenter" and "mouseleave" functionalities into drag start and end functions, respectively, for improved user experience.
+9. Ensure that person nodes are created last to prioritize their visibility in the force graph.
+
+BONUS:
+
+1. Implement a BreakpointService leveraging AngularCDK to manage layout changes, particularly within the force graph.
+2. Enhance the FormComponent by adding a FilterForm to refine form results, selecting only the fields/attributes chosen by "n" persons.
+
+NOTES:
+
+1. I could've used lazy loading, but I felt it wasnt neccesary for this task.
+2. I didn't use scss variables ($variable) because it's easier to access a certain color through enums, but I suppose I could have used them for styling purposes.
+
+___________________
+
+DESCRIPTION (NEW):
+- I didn't include the counter on the nodes because I thought it might be confusing.
+- When selecting fewer attributes to show, it may result in the force graph not displaying distances appropriately. This is because with fewer attributes to compare between individuals, the likelihood of extreme matches (yes or no) increases. I attempted to address this by using a square root function to more evenly distribute the results. However, at some point, I felt I was spending too much time on this issue, so I decided to move on and focus on other tasks. (But I guess the easiest solution is to increase the strength of the graph).
+- For improved user experience (UX), I created a name list and assigned an age to each person. If a name is repeated, it should have a different age, ranging between 18 and 28 years old.
+- The default number of persons is set to 15. If you increase the number, new random values will be generated for additional people. However, if you select a lower number of persons, it won't erase the previously generated data; instead, it will only slice the array. Therefore, if you decide to render a greater number of people, it will include the previously generated data.
+- When adding a person, the service uses a function (randomBoolean) which returns true or false based on the input number (from 1 to 10). If it receives a 9, it will return 'true' with a 90 percent chance. This is utilized to have persons with fewer attributes (if the function returns 'false', it won't add that attribute, meaning the person doesn't possess that attribute).
+-I haven't yet resolved the issue causing additional height in the black space each time we render the graph.
+- As you may notice, I used a lot of Angular Material, like the basic mat-input and mat-select, the mat-button-toggle and the mat-table. Also, I used ::ng-deep to change some material styles in order to deliver a better UX.
+
+REVIEW (NEW):
+"There will be the Selected Person (a group of nodes that sticks to the center), the Other People (group of nodes shown with an aura) and all of them will have attributes and preferences (nodes).  Once this person is selected the other people’s attributes they are compared against the selected person’s preferences.  The more the preferences match another persons attributes the closer they will be with the selected person, " ✅
+
+"similarly if they are similar to the selected person but similar in a different way than the other persons then they will be repelled a certain amount so that they are close to the selected but not the other dissimilar other people." ❌
+
+"When you add a person object using the config object, it should generate random values for that new person object." ✅
+
+"If there are 10 attributes this is how each node group (person) will look, when you make a new node group they will get random attributes, preferences, and sign values" ✅
+
+"A preference with a greater sign, will consider anything greater than the value as a perfect score, anything below would push the corresponding nodes further and further away.  A preference with a less than sign is the opposite.  A preference with an exact sign needs a perfect match or those nodes will have zero attraction.  Lastly, the default, is a preference with closer just means the closer the value is to the other nodes value the more attraction it will have." ✅
+
+"Weights have to do with the individual attributes affect on the overall attraction (inter and intragroup attractions)"✅
+
+"If the selected has preferences that do not have a matching attribute in the other people, it will count that attribute as whatever would produce the least attraction. For example if there's a Preference1 on the selected but one of the Other People only has Attribute 2 to 11, then for that preference no attraction will be made." ✅
+
+"The size of the cluster depends on the amount of information we have about that person.  I big red circle shows that we know a bunch about that person whereas a small red circle shows we don't know much.  As you can see even the small red circles could still have a large affinity to the selected person, because from what we DO know about that person apparently their attributes match greatly with the selected person."✅ (But the selected person has the maximun aura radio)
+
+"Config Object:
+
+{
+  "nodeGroupAmount": number of node groups (people), ✅
+  "nodePerGroupAmount":  number of attribute nodes (attributes), ✅ (not number, but selection)
+  "attributeNodePerGroupAmount":  number of attribute nodes (attributes), (repeated❔)
+  "preferenceNodePerGroupAmount":  number of preference nodes (preferences), ❌
+  "defaultSelectedNodeGroup": by default this node will be selected, ✅
+  "clusterAuraVisualStrength":  this is the opacity of the aura ✅
+  "personGroupStrength":  [change at your own risk](intragroup attraction) this is the relative strength from one persons attributes to their other attributes. Increasing this will increase how tight person groups are packed.  this is the amount an attribute will convert its own attraction to the groups attraction. If this is low, then an attribute will act on its own and reach out beyond its group to the Selected, however if its high the attraction between any attribute and the selected preference would be converted to the overall groups attraction to  the selected thus the group will be tight. ✅
+  "attributeGroupStrength":  [change at your own risk] (intergroup attraction) this is the relative strength from one persons attribute to the same attribute of another person if they are similar.  If this group is high then the graph is in general much tighter. ✅
+
+(new)
+  "percentDefinedAttributes": the percentage likelihood of an attribute being present or absent when defining a person. 🆕
+  "strengthGraph": The force of attraction between nodes. 🆕
+  "maxAuraRadio": The maximun radio for a person node to appear (based on the number of attributes) 🆕
+  "valueAttributeNode": The size of an attribute node. 🆕
+  "fullColorAttributeNodes": Boolean. It can full color the attribute nodes. 🆕
+  "showNames": Boolean. It can show or hide the name of the nodes. 🆕
+}"
+
+
